@@ -6,7 +6,7 @@ const router = useRouter();
 const route = useRoute();
 
 function seeRoute(){
-  debug(route)
+  debug(route);
 }
 </script>
 <template>
@@ -14,7 +14,3 @@ function seeRoute(){
 
     <button @click="seeRoute">See current route</button>
 </template>
-
-<style>
-
-</style>

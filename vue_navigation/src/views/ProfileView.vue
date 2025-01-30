@@ -14,9 +14,6 @@
   const route = useRoute();
 
   const id = route?.params.id || false;
-  onMounted(()=>{
-     console.log(route)
-  })
 </script>
 
 <style scoped>
