@@ -1,24 +1,25 @@
 <script setup>
 import {reactive, ref, watchEffect} from "vue";
 import InputLabel from "@/components/InputLabel.vue";
-import Paragraph from "@/components/Paragraph.vue";
 import {debug} from "@/utils.js";
 
-const newItem = ref('');
-const newImportant = ref(false);
+const newItem = reactive({
+  title: '',
+  important: false,
+})
 const isTyping = ref(false);
 const todos = ref([]);
 
 function resetItem() {
-  newItem.value = '';
-  newImportant.value = false;
+  newItem.title = '';
+  newItem.important = false;
 }
 
 function handleSubmit() {
   todos.value.push({
-    title: newItem.value,
+    title: newItem.title,
     createdAt: (new Date).getTime(),
-    important: newImportant.value,
+    important: newItem.important,
     turn: false,
   })
   resetItem()
@@ -31,20 +32,21 @@ function doneTodo(index) {
     todos.value[index].turn = false;
   }, 500)
 }
+
 function handleRemove(index) {
   todos.value.splice(index, 1);
 }
 
-watchEffect((onCleanup)=>{
-  if(newItem.value.length > 0){
+watchEffect((onCleanup) => {
+  if (newItem.title.length > 0) {
     isTyping.value = true;
   }
   // getting the id for this timeout
-  const removingTypingStatus = setTimeout(()=>{
+  const removingTypingStatus = setTimeout(() => {
     isTyping.value = false;
-  },2000)
+  }, 2000)
   // when another watch effect starts before this is over
-  onCleanup(()=>{
+  onCleanup(() => {
     clearTimeout(removingTypingStatus)
   })
 },)
@@ -53,15 +55,15 @@ watchEffect((onCleanup)=>{
 <template>
   <main>
     <form @submit.prevent="handleSubmit">
-      <InputLabel v-model="newItem" label="Chore's title"/>
+      <InputLabel v-model="newItem.title" label="Chore's title"/>
       <div class="form-check">
-        <input v-model="newImportant" class="form-check-input" type="checkbox" id="importante">
+        <input v-model="newItem.important" class="form-check-input" type="checkbox" id="importante">
         <label class="form-check-label" for="importante">
           Importante
         </label>
         <p class="text-typing" v-if="isTyping">The user is typing...</p>
       </div>
-      <button class="btn btn-primary">Submit</button>
+      <button class="btn btn-primary me-2">Submit</button>
     </form>
     <ol class="list-group list-group-numbered mt-3">
       <li
@@ -78,12 +80,19 @@ watchEffect((onCleanup)=>{
       </li>
     </ol>
   </main>
-  <Paragraph :title="newItem"/>
 </template>
 
 <style scoped>
 .done {
   text-decoration-line: line-through;
+}
+
+.disabled {
+  outline-color: red;
+}
+
+.active {
+  outline-color: blue;
 }
 
 .important {
@@ -107,7 +116,7 @@ li span {
   }
 }
 
-.text-typing{
+.text-typing {
   font-style: italic;
   color: dimgray;
 }

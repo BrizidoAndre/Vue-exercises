@@ -10,7 +10,7 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
 
-        {path: '/', component: HomeView},
+        {path: '/', component: HomeView, alias:['/home']},
         // study no exemplo abaixo estamos criando uma url com um parâmetro chamado id
         // este parâmetro pode ser acessado através da variável route
         {path: '/about/:id?', component: AboutView, alias:['/sobre/:id?']},

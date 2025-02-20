@@ -1,7 +1,7 @@
 <script setup>
 import {computed, reactive, ref, watchEffect} from "vue";
 import InputLabel from "@/components/InputLabel.vue";
-import {debug} from "@/utils.js";
+
 const user = reactive({
   username: 'username',
   password: 'secret'

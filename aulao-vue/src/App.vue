@@ -51,4 +51,5 @@ const dogs = [
     </template>
   </Slots>
   <Emits/>
+
 </template>
